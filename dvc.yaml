@@ -1,0 +1,29 @@
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+    outs:
+      - data/raw
+  data_preprocessing:
+    cmd: python src/data_preprocessing.py
+    deps:
+      - data/raw
+      - src/data_preprocessing.py
+    outs: 
+      - data/processed
+
+  data_hyper_parameter_tuning:
+    cmd: python src/data_hyper_parameter_tuning.py
+    deps:
+      - data/processed
+      - src/data_hyper_parameter_tuning.py
+    outs:
+      - models/
+  Model_evaluation:
+    cmd: python src/Model_evaluation.py
+    deps:
+      - models/
+      - src/Model_evaluation.py
+    metrics:
+      - metrics/model_metrics.json

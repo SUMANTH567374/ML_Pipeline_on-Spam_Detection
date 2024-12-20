@@ -1,0 +1,68 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 8572bd758db10bb99eab08f95b6830db
+      size: 1880
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 5c52a610a4ba93cc211ba12262b22f08.dir
+      size: 504935
+      nfiles: 2
+  data_preprocessing:
+    cmd: python src/data_preprocessing.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 5c52a610a4ba93cc211ba12262b22f08.dir
+      size: 504935
+      nfiles: 2
+    - path: src/data_preprocessing.py
+      hash: md5
+      md5: 4544029f33865cefc02c391d1e49a41d
+      size: 3298
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 051276fa3023bf47f390ac9bf5177394.dir
+      size: 746807
+      nfiles: 2
+  data_hyper_parameter_tuning:
+    cmd: python src/data_hyper_parameter_tuning.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 051276fa3023bf47f390ac9bf5177394.dir
+      size: 746807
+      nfiles: 2
+    - path: src/data_hyper_parameter_tuning.py
+      hash: md5
+      md5: 5accde51506307cf9d7408456e138b89
+      size: 4025
+    outs:
+    - path: models/
+      hash: md5
+      md5: ddd275e0d16a64d5175ff4496863fa5d.dir
+      size: 10349078
+      nfiles: 3
+  Model_evaluation:
+    cmd: python src/Model_evaluation.py
+    deps:
+    - path: models/
+      hash: md5
+      md5: ddd275e0d16a64d5175ff4496863fa5d.dir
+      size: 10349078
+      nfiles: 3
+    - path: src/Model_evaluation.py
+      hash: md5
+      md5: 4934bb997d602d04a6a343b3fbd0af56
+      size: 3231
+    outs:
+    - path: metrics/model_metrics.json
+      hash: md5
+      md5: 6766bb597859dbf6961fcc6e8af84dba
+      size: 2582

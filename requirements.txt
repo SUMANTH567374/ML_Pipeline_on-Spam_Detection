@@ -1,0 +1,10 @@
+pandas
+scikit_learn
+imblearn
+xgboost
+nltk
+spacy
+regex
+PyYAML
+dvc
+-e .
